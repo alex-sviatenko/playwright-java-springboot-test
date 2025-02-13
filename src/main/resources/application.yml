@@ -1,0 +1,21 @@
+application:
+  url: https://www.automationexercise.com/
+  email: ${TEST_EMAIL}
+  password: ${TEST_PASSWORD}
+
+test:
+  browser: chromium
+  headless: false
+  slow:
+    motion: 100
+  timeout: 10000
+  video:
+    enabled: true
+    path: build/test-video/
+    size:
+      width: 1280
+      height: 720
+  screen:
+    size:
+      width: 1920
+      height: 1080

@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.2'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id("io.qameta.allure") version "2.12.0"
+    id("io.freefair.lombok") version "8.12"
+}
+
+group = 'com'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // JUnit for testing framework
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.4'
+
+    // Playwright for browser automation
+    implementation 'com.microsoft.playwright:playwright:1.49.0'
+
+    // Logging-related dependencies (Log4j2)
+    implementation 'org.apache.logging.log4j:log4j-core:2.24.3'
+    implementation 'org.apache.logging.log4j:log4j-api:2.24.3'
+
+    // SLF4J NOP (No-Operation) provider to suppress SLF4J logging
+    // If you are using Log4j2 and don't want SLF4J logs, this ensures no logs are printed by SLF4J.
+    implementation 'org.slf4j:slf4j-nop:2.0.16'  // NOP provider to suppress SLF4J logs
+
+    // Spring Boot Starter Test with exclusions for unnecessary dependencies
+    // Excluding mockito-core and Spring Boot logging to use Log4j2 as the logger instead
+    implementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.mockito', module: 'mockito-core'
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+
+    // Allure dependency for test reporting
+    implementation 'io.qameta.allure:allure-junit-platform:2.29.1'
+}
+
+test {
+    systemProperties = System.getProperties() as Map<String, ?>
+    useJUnitPlatform()
+}
+
+bootJar {
+    enabled = false
+}
